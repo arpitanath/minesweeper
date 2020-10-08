@@ -40,23 +40,36 @@ function createModel() {
   });
 
   //get adjacent bombs count for each cell and update model
-  //updateAdjacentBombCountInModel(data);
+  getNeighbors(data);
 }
 
-function updateAdjacentBombCountInModel(data) {
+function getNeighbors(data) {
+  // possible combination of rows and columns
   let dx = [-1, -1, -1, 0, 0, 1, 1, 1];
   let dy = [-1, 0, 1, -1, 1, -1, 0, 1];
-  let neighbors = [];
+
+  // we are trying to find neighboring cells of item
   for (let i = 0; i < data.length; i++) {
-    for (let j = 0; j < 8; j++) {
-      if (isValid(data[i], data[i].col)) {
+    console.log(data[i]);
+    data[i].map(item => {
+      item.neighbors = [];
+      let itemRow = item.row;
+      let itemCol = item.col;
+      for (let j = 0; j < 8; j++) {
+        // console.log("positions", itemRow + dx[j], itemCol + dy[j]);
+        if (isValid(itemRow + dx[j], itemCol + dy[j])) {
+          item.neighbors.push([itemRow + dx[j], itemCol + dy[j]]);
+        }
       }
-    }
+    });
   }
+
+  console.log("data after modification", data);
 }
 
+// function to check whether row and column value are valid
 function isValid(x, y) {
-  if (x < 0++ || x >= rows || y < 0 || y >= col) {
+  if (x < 0 || x >= rows || y < 0 || y >= col) {
     return false;
   }
   return true;
