@@ -1,43 +1,54 @@
 const grid = document.querySelector(".grid");
-let rows = 5;
-col = 3;
-let bombCount = (rows * col) / 2;
-grid.style.height = `${rows * 50}px`;
-grid.style.width = `${col * 50}px`;
-let fragment = document.createDocumentFragment();
-
-//data
+const generate_Button = document.getElementById("gen_btn");
+const fragment = document.createDocumentFragment();
+const row_inp = document.getElementById("row_input");
+const col_inp = document.getElementById("col_input");
+let rows, col;
 let data = [];
-let bombs = [];
 
-//generate random bombs
-for (let i = 0; i < bombCount; i++) {
-  bombs.push([
-    Math.floor(Math.random() * Math.floor(rows)),
-    Math.floor(Math.random() * Math.floor(col))
-  ]);
-}
+//Adding Event Listener
+generate_Button.addEventListener("click", createModel);
 
-//create MineSweeper board
-function createModel() {
-  for (let i = 0; i < rows; i++) {
-    data.push([]);
-    for (let j = 0; j < col; j++) {
-      //populating our model
-      data[i].push({
-        row: i,
-        col: j,
-        bomb: false
-      });
-    }
+//generate random bombs model
+function generateBombs() {
+  let bombs = [];
+  let bombCount = rows * col * 0.25;
+  for (let i = 0; i < bombCount; i++) {
+    bombs.push([
+      Math.floor(Math.random() * Math.floor(rows)),
+      Math.floor(Math.random() * Math.floor(col))
+    ]);
   }
   //adding bomb variable in data object
   bombs.map(item => {
     data[item[0]][item[1]].bomb = true;
   });
+}
 
+//create data for MineSweeper board
+function createModel() {
+  data = [];
+  rows = parseInt(row_inp.value.trim(""));
+  col = parseInt(col_inp.value.trim(""));
+  for (let i = 0; i < rows; i++) {
+    data.push([]);
+    for (let j = 0; j < col; j++) {
+      //populating our model
+      data[i].push({
+        id: `${i}${j}`,
+        row: i,
+        col: j,
+        bomb: false,
+        visible: false
+      });
+    }
+  }
+  //generate random bomb positions in board
+  generateBombs();
   //get adjacent bombs count for each cell and update model
   getNeighborsWithBomb(data);
+  console.log("data", data);
+  createUIFromModel(data);
 }
 
 function getNeighborsWithBomb(data) {
@@ -73,9 +84,14 @@ function isValid(x, y) {
 }
 
 function createUIFromModel(data) {
+  grid.style.height = `${rows * 50}px`;
+  grid.style.width = `${col * 50}px`;
+  grid.innerHTML = "";
   data.map(item => {
     for (let j = 0; j < item.length; j++) {
       const square = document.createElement("div");
+      // $(square).addClass("btn btn-success");
+      square.setAttribute("id", `${item[j].row}${item[j].col}`);
       square.setAttribute("row", item[j].row);
       square.setAttribute("col", item[j].col);
       square.addEventListener("click", cellClick);
@@ -86,20 +102,40 @@ function createUIFromModel(data) {
 }
 
 function cellClick(e) {
-  let ID = e.target.id;
   let selectedRow = e.target.getAttribute("row");
   let selectedCol = e.target.getAttribute("col");
+  let selectedItem = data[selectedRow][selectedCol];
+  let count = selectedItem.neighbors.length;
   console.log(selectedRow, selectedCol);
-  if (data[selectedRow][selectedCol].bomb) {
+  e.target.className = "alreadyClicked";
+  e.target.disabled = true;
+  if (selectedItem.bomb) {
+    let image = document.createElement("img");
+    image.className = "bomb";
+    image.src = "bomb.jpg";
+    e.target.appendChild(image);
     e.target.className = "bomb";
+  } else if (count > 0) {
+    e.target.innerHTML = `<span class='digit'>${count}</span>`;
   } else {
-    console.log("selectedItem", data[selectedRow][selectedCol]);
-    let count = data[selectedRow][selectedCol].neighbors.length;
-    e.target.innerHTML = count;
+    e.target.className = "zeroBombNearby";
+    // searchNeighborsWithBomb(selectedItem);
   }
 }
 
-console.log("data", data);
-console.log("bombs", bombs);
-createModel();
-createUIFromModel(data);
+// function searchNeighborsWithBomb(item) {
+//   let n = item.neighbors,
+//     i = 0;
+//   while (i < n.length) {
+//     let aNeighbor = n.pop(); //[0,1]
+//     let row = aNeighbor[0];
+//     let col = aNeighbor[1];
+//     if (data[row][col].bomb) {
+//       document.getAttribute("");
+//     }
+//   }
+// }
+
+// console.log("data", data);
+// console.log("bombs", bombs);
+// createModel();
