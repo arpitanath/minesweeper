@@ -93,7 +93,6 @@ function createUIFromModel(data) {
   data.map(item => {
     for (let j = 0; j < item.length; j++) {
       const square = document.createElement("div");
-      // $(square).addClass("btn btn-success");
       square.setAttribute("id", `${item[j].row}${item[j].col}`);
       square.setAttribute("row", item[j].row);
       square.setAttribute("col", item[j].col);
@@ -120,7 +119,6 @@ function cellClick(e) {
     image.src = "bomb.jpg";
     e.target.appendChild(image);
     e.target.className = "bomb";
-    document.getElementById("over").className = "appear";
   } else if (count > 0) {
     e.target.innerHTML = `<span class='digit'>${count}</span>`;
   } else {

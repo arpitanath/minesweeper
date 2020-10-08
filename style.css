@@ -29,16 +29,6 @@ select {
   padding: 20px;
 }
 
-div.over {
-  /* display: none; Hidden by default */
-  /* position: fixed; /* Stay in place */
-  background-color: #fefefe;
-  margin: 15% auto; /* 15% from the top and centered */
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
-}
-
 .modal {
   display: none;
   position: fixed; /* Stay in place */
@@ -77,20 +67,6 @@ div.over {
   cursor: pointer;
 }
 
-.appear {
-  width: 400px;
-  height: 40px;
-  margin: auto;
-  text-align: center;
-  display: block;
-  border: red dashed 5px;
-  color: red;
-}
-
-div.over span {
-  margin: 20px;
-  font-size: x-large;
-}
 .heading {
   margin: auto;
   padding: 20px;
@@ -102,8 +78,8 @@ div.over span {
   border-style: outset;
   border-color: floralwhite;
   display: flex;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   cursor: pointer;
   background-color: lightgrey;
   background-size: 40px;
