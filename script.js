@@ -1,8 +1,9 @@
 const grid = document.querySelector(".grid");
 const generate_Button = document.getElementById("gen_btn");
 const fragment = document.createDocumentFragment();
-const row_inp = document.getElementById("row_input");
-const col_inp = document.getElementById("col_input");
+const row_inp = document.getElementById("rows");
+const col_inp = document.getElementById("cols");
+var modal = document.getElementById("myModal");
 let rows, col;
 let data = [];
 
@@ -27,9 +28,9 @@ function generateBombs() {
 
 //create data for MineSweeper board
 function createModel() {
-  data = [];
   rows = parseInt(row_inp.value.trim(""));
   col = parseInt(col_inp.value.trim(""));
+  data = [];
   for (let i = 0; i < rows; i++) {
     data.push([]);
     for (let j = 0; j < col; j++) {
@@ -51,6 +52,7 @@ function createModel() {
   createUIFromModel(data);
 }
 
+//find adjacent neighbours who have bomb
 function getNeighborsWithBomb(data) {
   // possible combination of rows and columns
   let dx = [-1, -1, -1, 0, 0, 1, 1, 1];
@@ -75,7 +77,7 @@ function getNeighborsWithBomb(data) {
   console.log("data after finding neighbors", data);
 }
 
-// function to check whether row and column value are valid
+// function to check whether row and column value are valid. Used while calculating neighbors with bomb.
 function isValid(x, y) {
   if (x < 0 || x >= rows || y < 0 || y >= col) {
     return false;
@@ -83,10 +85,11 @@ function isValid(x, y) {
   return true;
 }
 
+// create UI using our model - data
 function createUIFromModel(data) {
+  grid.innerHTML = "";
   grid.style.height = `${rows * 50}px`;
   grid.style.width = `${col * 50}px`;
-  grid.innerHTML = "";
   data.map(item => {
     for (let j = 0; j < item.length; j++) {
       const square = document.createElement("div");
@@ -101,6 +104,7 @@ function createUIFromModel(data) {
   grid.appendChild(fragment);
 }
 
+// function invoked after clicking cell
 function cellClick(e) {
   let selectedRow = e.target.getAttribute("row");
   let selectedCol = e.target.getAttribute("col");
@@ -110,32 +114,24 @@ function cellClick(e) {
   e.target.className = "alreadyClicked";
   e.target.disabled = true;
   if (selectedItem.bomb) {
+    modal.style.display = "block";
     let image = document.createElement("img");
     image.className = "bomb";
     image.src = "bomb.jpg";
     e.target.appendChild(image);
     e.target.className = "bomb";
+    document.getElementById("over").className = "appear";
   } else if (count > 0) {
     e.target.innerHTML = `<span class='digit'>${count}</span>`;
   } else {
     e.target.className = "zeroBombNearby";
-    // searchNeighborsWithBomb(selectedItem);
   }
 }
 
-// function searchNeighborsWithBomb(item) {
-//   let n = item.neighbors,
-//     i = 0;
-//   while (i < n.length) {
-//     let aNeighbor = n.pop(); //[0,1]
-//     let row = aNeighbor[0];
-//     let col = aNeighbor[1];
-//     if (data[row][col].bomb) {
-//       document.getAttribute("");
-//     }
-//   }
-// }
-
-// console.log("data", data);
-// console.log("bombs", bombs);
-// createModel();
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+    grid.innerHTML = "";
+  }
+};

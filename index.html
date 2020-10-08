@@ -13,12 +13,33 @@
     <h1 class="heading">Minesweeper</h1>
     <div id="form" class="form">
       <label>Rows:</label>
-      <input placeholder="enter rows" id="row_input" />
+      <select name="rows" id="rows">
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="20">25</option>
+        <option value="20">30</option>
+      </select>
+      <!-- <input placeholder="enter rows" id="row_input" /> -->
       <label>Columns:</label>
-      <input placeholder="enter columns" id="col_input" />
+      <select name="cols" id="cols">
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="20">25</option>
+        <option value="20">30</option>
+      </select>
       <button class="btn btn-success" id="gen_btn">Generate Board</button>
     </div>
     <div class="grid"></div>
+    <div id="myModal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <p>Oops! You stepped on a mine! Game over!</p>
+      </div>
+    </div>
     <script src="script.js"></script>
   </body>
 </html>
