@@ -29,8 +29,13 @@ function generateBombs() {
   }
   //adding bomb variable in data object
   bombs.map(item => {
-    data[item[0]][item[1]].bomb = true;
+    if (!data[item[0]][item[1]].bomb) data[item[0]][item[1]].bomb = true;
+    else {
+      bombCount--;
+      safeCells--;
+    }
   });
+  console.log("bombs", bombs);
 }
 
 //create data for MineSweeper board
@@ -56,7 +61,6 @@ function createModel() {
   generateBombs();
   //get adjacent bombs count for each cell and update model
   getNeighborsWithBomb(data);
-  console.log("data", data);
   createUIFromModel(data);
 }
 
@@ -82,7 +86,7 @@ function getNeighborsWithBomb(data) {
       }
     });
   }
-  console.log("data after finding neighbors", data);
+  console.log("data after finding neighbors with bomb", data);
 }
 
 // function to check whether row and column value are valid. Used while calculating neighbors with bomb.
@@ -119,7 +123,6 @@ function cellClick(e) {
   let count = selectedItem.neighbors.length;
   cellsClicked.push([selectedRow, selectedCol]);
   e.target.className = "alreadyClicked";
-  e.target.disabled = true;
   if (cellsClicked.length === Math.floor(safeCells)) {
     // Winning Condition
     modal.style.display = "block";
