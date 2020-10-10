@@ -92,11 +92,11 @@ var MineSweeper = (function () {
     cellsClicked++;
     e.target.className = "alreadyClicked";
     if (selectedItem.bomb) {
-      _showModal("You lost the game.<br/><a href='#' onclick='javascript:window.location.reload()'>Click here to restart.</a>", "loser");
+      _showModal("You lost the game.<br/><button onclick='javascript:window.location.reload()'>Restart</button>", "loser");
       _revealBombs();
       return;
     } else if (cellsClicked === safeCells) {
-      _showModal("You won the game.<br/><a href='#' onclick='javascript:window.location.reload()'>Click here to restart.</a>", "winner");
+      _showModal("You won the game.<br/><button onclick='javascript:window.location.reload()'>Restart</button>", "winner");
       _revealBombs();
       return;
     } else {
