@@ -49,7 +49,16 @@ select {
   padding: 20px;
   border: 1px solid #888;
   width: 50%; /* Could be more or less, depending on screen size */
+}
+
+.loser {
+  display: none;
   color: orangered;
+}
+
+.winner {
+  display: none;
+  color: green;
 }
 
 /* The Close Button */
@@ -96,12 +105,10 @@ select {
   margin: auto;
 }
 
-.grid div.zeroBombNearby {
-  background-color: beige;
-}
-
 .grid div.alreadyClicked {
   background-color: beige;
+  border-style: solid;
+  pointer-events: none;
 }
 
 .grid .digit {

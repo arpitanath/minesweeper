@@ -3,9 +3,14 @@ const generate_Button = document.getElementById("gen_btn");
 const fragment = document.createDocumentFragment();
 const row_inp = document.getElementById("rows");
 const col_inp = document.getElementById("cols");
-var modal = document.getElementById("myModal");
-let rows, col;
-let data = [];
+const modal = document.getElementById("myModal");
+const winner = document.getElementById("winner");
+const loser = document.getElementById("loser");
+let rows,
+  col,
+  safeCells,
+  cellsClicked,
+  data = [];
 
 //Adding Event Listener
 generate_Button.addEventListener("click", createModel);
@@ -13,7 +18,8 @@ generate_Button.addEventListener("click", createModel);
 //generate random bombs model
 function generateBombs() {
   let bombs = [];
-  let bombCount = rows * col * 0.25;
+  let bombCount = Math.floor(rows * col * 0.25);
+  safeCells = rows * col - bombCount;
   for (let i = 0; i < bombCount; i++) {
     bombs.push([
       Math.floor(Math.random() * Math.floor(rows)),
@@ -31,6 +37,7 @@ function createModel() {
   rows = parseInt(row_inp.value.trim(""));
   col = parseInt(col_inp.value.trim(""));
   data = [];
+  cellsClicked = [];
   for (let i = 0; i < rows; i++) {
     data.push([]);
     for (let j = 0; j < col; j++) {
@@ -109,20 +116,27 @@ function cellClick(e) {
   let selectedCol = e.target.getAttribute("col");
   let selectedItem = data[selectedRow][selectedCol];
   let count = selectedItem.neighbors.length;
-  console.log(selectedRow, selectedCol);
+  cellsClicked.push([selectedRow, selectedCol]);
   e.target.className = "alreadyClicked";
   e.target.disabled = true;
-  if (selectedItem.bomb) {
+  if (cellsClicked.length === Math.floor(safeCells)) {
+    // Winning Condition
     modal.style.display = "block";
+    winner.style.display = "block";
+  } else if (selectedItem.bomb) {
+    // Losing condition
+    modal.style.display = "block";
+    loser.style.display = "block";
+
+    //creating img element for bomb
     let image = document.createElement("img");
     image.className = "bomb";
     image.src = "bomb.jpg";
+
     e.target.appendChild(image);
     e.target.className = "bomb";
   } else if (count > 0) {
     e.target.innerHTML = `<span class='digit'>${count}</span>`;
-  } else {
-    e.target.className = "zeroBombNearby";
   }
 }
 
