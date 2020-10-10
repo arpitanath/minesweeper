@@ -45,7 +45,7 @@ select {
 /* Modal Content/Box */
 .modal-content {
   background-color: #fefefe;
-  margin: 30% auto; /* 30% from the top and centered */
+  margin: 45% auto; /* 30% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
   width: 50%; /* Could be more or less, depending on screen size */
@@ -121,33 +121,33 @@ select {
   height: 40px;
   margin: auto;
   text-align: center;
-  /* color: green; */
 }
 
+/* used minesweeper color codes */
 .color0 {
   display: none;
 }
 .color1 {
-  color: green;
-}
-.color2 {
   color: blue;
 }
+.color2 {
+  color: green;
+}
 .color3 {
-  color: darkviolet;
+  color: #d30060;
 }
 .color4 {
   color: darkslateblue;
 }
 .color5 {
-  color: darkviolet;
+  color: #d100d3;
 }
 .color6 {
   color: darkmagenta;
 }
 .color7 {
-  color: orangered;
+  color: black;
 }
-.color7 {
-  color: darkred;
+.color8 {
+  color: grey;
 }

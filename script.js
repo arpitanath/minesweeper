@@ -46,7 +46,7 @@ function createModel() {
     for (let j = 0; j < col; j++) {
       //populating our model
       data[i].push({
-        id: `${i}${j}`,
+        id: `${i}-${j}`,
         row: i,
         col: j,
         bomb: false,
@@ -58,6 +58,7 @@ function createModel() {
   generateBombs();
   //get adjacent bombs count for each cell and update model
   getNeighborsWithBomb(data);
+  console.log("data", data);
   createUIFromModel(data);
 }
 
@@ -83,7 +84,6 @@ function getNeighborsWithBomb(data) {
       }
     });
   }
-  console.log("data after finding neighbors with bomb", data);
 }
 
 // function to check whether row and column value are valid. Used while calculating neighbors with bomb.
@@ -96,13 +96,15 @@ function isValid(x, y) {
 
 // create UI using our model - data
 function createUIFromModel(data) {
-  grid.innerHTML = "";
+  while (grid.firstChild) {
+    grid.removeChild(grid.firstChild);
+  }
   grid.style.height = `${rows * 50}px`;
   grid.style.width = `${col * 50}px`;
   data.map(item => {
     for (let j = 0; j < item.length; j++) {
       const square = document.createElement("div");
-      square.setAttribute("id", `${item[j].row}${item[j].col}`);
+      square.setAttribute("id", `${item[j].row}-${item[j].col}`);
       square.setAttribute("row", item[j].row);
       square.setAttribute("col", item[j].col);
       square.addEventListener("click", cellClick);
@@ -132,7 +134,7 @@ function cellClick(e) {
     winner.style.display = "block";
     bombs.map(item => {
       //reveal all the bombs after winning
-      let bombEle = document.getElementById(`${item[0] + "" + item[1]}`);
+      let bombEle = document.getElementById(`${item[0] + "-" + item[1]}`);
       appendImage(bombEle);
     });
     return;
