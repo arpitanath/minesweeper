@@ -8,6 +8,4 @@ Minesweeper is a single-player puzzle video game. The objective of the game is t
 - If clicked on a cell having bomb , game is over.
 - If you have discovered all the cells without bomb , you win.
 
-# Demo 
-
-[minesweeper](http://htmlpreview.github.io/?https://github.com/idontknowjs/MineSweeper/blob/master/index.html)
+Demo -> [Minesweeper](http://htmlpreview.github.io/?https://github.com/idontknowjs/MineSweeper/blob/master/index.html)
