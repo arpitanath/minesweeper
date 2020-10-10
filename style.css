@@ -121,5 +121,33 @@ select {
   height: 40px;
   margin: auto;
   text-align: center;
+  /* color: green; */
+}
+
+.color0 {
+  display: none;
+}
+.color1 {
   color: green;
+}
+.color2 {
+  color: blue;
+}
+.color3 {
+  color: darkviolet;
+}
+.color4 {
+  color: darkslateblue;
+}
+.color5 {
+  color: darkviolet;
+}
+.color6 {
+  color: darkmagenta;
+}
+.color7 {
+  color: orangered;
+}
+.color7 {
+  color: darkred;
 }

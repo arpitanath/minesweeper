@@ -19,21 +19,18 @@ generate_Button.addEventListener("click", createModel);
 //generate random bombs model
 function generateBombs() {
   bombs = [];
+  let dictionary = {};
   let bombCount = Math.floor(rows * col * 0.25);
-  safeCells = rows * col - bombCount;
-  for (let i = 0; i < bombCount; i++) {
-    bombs.push([
-      Math.floor(Math.random() * Math.floor(rows)),
-      Math.floor(Math.random() * Math.floor(col))
-    ]);
+  while (Object.keys(dictionary).length < bombCount) {
+    x = Math.floor(Math.random() * 1000) % rows;
+    y = Math.floor(Math.random() * 1000) % col;
+    dictionary["" + x + "" + y] = [x, y];
   }
-  //adding bomb variable in data object
+
+  bombs = Object.keys(dictionary).map(k => dictionary[k]);
+  safeCells = rows * col - bombCount;
   bombs.map(item => {
-    if (!data[item[0]][item[1]].bomb) data[item[0]][item[1]].bomb = true;
-    else {
-      bombCount--;
-      safeCells--;
-    }
+    data[item[0]][item[1]].bomb = true;
   });
   console.log("bombs", bombs);
 }
@@ -43,7 +40,7 @@ function createModel() {
   rows = parseInt(row_inp.value.trim(""));
   col = parseInt(col_inp.value.trim(""));
   data = [];
-  cellsClicked = [];
+  cellsClicked = 0;
   for (let i = 0; i < rows; i++) {
     data.push([]);
     for (let j = 0; j < col; j++) {
@@ -121,9 +118,15 @@ function cellClick(e) {
   let selectedCol = e.target.getAttribute("col");
   let selectedItem = data[selectedRow][selectedCol];
   let count = selectedItem.neighbors.length;
-  cellsClicked.push([selectedRow, selectedCol]);
+  cellsClicked++;
   e.target.className = "alreadyClicked";
-  if (cellsClicked.length === Math.floor(safeCells)) {
+  if (selectedItem.bomb) {
+    // Losing condition
+    modal.style.display = "block";
+    loser.style.display = "block";
+    appendImage(e.target);
+    return;
+  } else if (cellsClicked === safeCells) {
     // Winning Condition
     modal.style.display = "block";
     winner.style.display = "block";
@@ -132,13 +135,9 @@ function cellClick(e) {
       let bombEle = document.getElementById(`${item[0] + "" + item[1]}`);
       appendImage(bombEle);
     });
-  } else if (selectedItem.bomb) {
-    // Losing condition
-    modal.style.display = "block";
-    loser.style.display = "block";
-    appendImage(e.target);
-  } else if (count > 0) {
-    e.target.innerHTML = `<span class='digit'>${count}</span>`;
+    return;
+  } else {
+    e.target.innerHTML = `<span class='color${count} digit'>${count}</span>`;
   }
 }
 
@@ -154,6 +153,6 @@ function appendImage(ele) {
 window.onclick = function(event) {
   if (event.target == modal) {
     modal.style.display = "none";
-    grid.innerHTML = "";
+    location.reload();
   }
 };
