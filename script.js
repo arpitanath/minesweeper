@@ -123,24 +123,28 @@ function cellClick(e) {
   cellsClicked++;
   e.target.className = "alreadyClicked";
   if (selectedItem.bomb) {
-    // Losing condition
-    modal.style.display = "block";
-    loser.style.display = "block";
-    appendImage(e.target);
+    showModal(loser);
+    revealBombs();
     return;
   } else if (cellsClicked === safeCells) {
-    // Winning Condition
-    modal.style.display = "block";
-    winner.style.display = "block";
-    bombs.map(item => {
-      //reveal all the bombs after winning
-      let bombEle = document.getElementById(`${item[0] + "-" + item[1]}`);
-      appendImage(bombEle);
-    });
+    showModal(winner);
+    revealBombs();
     return;
   } else {
     e.target.innerHTML = `<span class='color${count} digit'>${count}</span>`;
   }
+}
+
+function showModal(ele) {
+  modal.style.display = "block";
+  ele.style.display = "block";
+}
+
+function revealBombs() {
+  bombs.map(item => {
+    let bombEle = document.getElementById(`${item[0] + "-" + item[1]}`);
+    appendImage(bombEle);
+  });
 }
 
 function appendImage(ele) {
