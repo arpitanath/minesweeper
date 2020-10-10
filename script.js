@@ -24,7 +24,7 @@ function generateBombs() {
   while (Object.keys(dictionary).length < bombCount) {
     x = Math.floor(Math.random() * 1000) % rows;
     y = Math.floor(Math.random() * 1000) % col;
-    dictionary["" + x + "" + y] = [x, y];
+    dictionary["" + x + "-" + y] = [x, y];
   }
 
   bombs = Object.keys(dictionary).map(k => dictionary[k]);
