@@ -10,6 +10,7 @@ let rows,
   col,
   safeCells,
   cellsClicked,
+  bombs,
   data = [];
 
 //Adding Event Listener
@@ -17,7 +18,7 @@ generate_Button.addEventListener("click", createModel);
 
 //generate random bombs model
 function generateBombs() {
-  let bombs = [];
+  bombs = [];
   let bombCount = Math.floor(rows * col * 0.25);
   safeCells = rows * col - bombCount;
   for (let i = 0; i < bombCount; i++) {
@@ -123,21 +124,27 @@ function cellClick(e) {
     // Winning Condition
     modal.style.display = "block";
     winner.style.display = "block";
+    bombs.map(item => {
+      //reveal all the bombs after winning
+      let bombEle = document.getElementById(`${item[0] + "" + item[1]}`);
+      appendImage(bombEle);
+    });
   } else if (selectedItem.bomb) {
     // Losing condition
     modal.style.display = "block";
     loser.style.display = "block";
-
-    //creating img element for bomb
-    let image = document.createElement("img");
-    image.className = "bomb";
-    image.src = "bomb.jpg";
-
-    e.target.appendChild(image);
-    e.target.className = "bomb";
+    appendImage(e.target);
   } else if (count > 0) {
     e.target.innerHTML = `<span class='digit'>${count}</span>`;
   }
+}
+
+function appendImage(ele) {
+  let image = document.createElement("img");
+  image.className = "bomb";
+  image.src = "bomb.jpg";
+  ele.appendChild(image);
+  ele.className = "bomb";
 }
 
 // When the user clicks anywhere outside of the modal, close it
