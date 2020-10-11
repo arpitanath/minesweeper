@@ -1,4 +1,4 @@
-var MineSweeper = (function () {
+var MineSweeper = (function() {
   const grid = document.querySelector(".grid");
   const generate_Button = document.getElementById("gen_btn");
 
@@ -10,7 +10,7 @@ var MineSweeper = (function () {
     data = [];
 
   function _start() {
-    //Adding Event Listener    
+    //Adding Event Listener
     generate_Button.addEventListener("click", _init);
   }
 
@@ -62,7 +62,6 @@ var MineSweeper = (function () {
     bombs.map(item => {
       data[item[0]][item[1]].bomb = true;
     });
-    console.log("bombs", bombs);
   }
 
   // create UI using our model - data
@@ -92,11 +91,17 @@ var MineSweeper = (function () {
     cellsClicked++;
     e.target.className = "alreadyClicked";
     if (selectedItem.bomb) {
-      _showModal("You lost the game.<br/><button onclick='javascript:window.location.reload()'>Restart</button>", "loser");
+      _showModal(
+        "You lost the game.<br/><button onclick='javascript:window.location.reload()'>Restart</button>",
+        "loser"
+      );
       _revealBombs();
       return;
     } else if (cellsClicked === safeCells) {
-      _showModal("You won the game.<br/><button onclick='javascript:window.location.reload()'>Restart</button>", "winner");
+      _showModal(
+        "You won the game.<br/><button onclick='javascript:window.location.reload()'>Restart</button>",
+        "winner"
+      );
       _revealBombs();
       return;
     } else {
@@ -114,8 +119,7 @@ var MineSweeper = (function () {
     let count = 0;
 
     for (let j = 0; j < 8; j++) {
-      if (_isValid(r + dx[j], c + dy[j]) &&
-        data[r + dx[j]][c + dy[j]].bomb) {
+      if (_isValid(r + dx[j], c + dy[j]) && data[r + dx[j]][c + dy[j]].bomb) {
         count++;
       }
     }
@@ -153,7 +157,7 @@ var MineSweeper = (function () {
   }
 
   return {
-    start: function () {
+    start: function() {
       _start();
     }
   };
